@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 // Set up middleware to serve static files from the "public" folder.
 // This means that when a request is made to the root URL ("/"),
 // Express will look for a file named index.html (or other static assets) inside the "public" directory.
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, "public")));
 // Define a GET endpoint at '/square' that calculates the square of a number.
 // The endpoint expects a query parameter 'num', e.g., /square?num=5
 app.get('/square', (req, res) => {
