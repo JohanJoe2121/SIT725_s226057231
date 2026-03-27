@@ -1,20 +1,20 @@
 
 const cardList = [
   {
-    title: "1984", // ! Replace with your second book title
-    image: "images/book4.png", // ! Replace with your second book image
+    title: "1984", 
+    image: "images/book4.png", 
     desciption: "A dystopian novel that portrays a society under constant surveillance, where freedom is restricted and truth is controlled by a powerful government. It highlights the dangers of totalitarianism and loss of individuality." // ! Replace with your second book description
   },
   {
-    title: "The Alchemist", // ! Replace with your third book title
-    image: "images/book5.png", // ! Replace with your third book image
+    title: "The Alchemist", 
+    image: "images/book5.png", 
     desciption: "A philosophical novel about a young shepherd named Santiago who travels in search of treasure and discovers the importance of following one’s dreams and purpose in life." // ! Replace with your third book description
   }
 ];
 
 const clickMe = () => {
   alert("Thanks for exploring these books. Hope you find something interesting!");
-  // ! Change the alert message if needed
+  
 };
 
 const submitForm = () => {
