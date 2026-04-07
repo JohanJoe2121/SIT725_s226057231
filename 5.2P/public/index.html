@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Books Catalogue</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h1>Books Catalogue</h1>
+
+  <ul id="booksList"></ul>
+  <p id="message" class="error"></p>
+
+  <script>
+    const booksList = document.getElementById('booksList');
+    const message = document.getElementById('message');
+
+    function renderBooks(items) {
+      booksList.innerHTML = '';
+      message.textContent = '';
+
+      if (!Array.isArray(items) || items.length === 0) {
+        message.textContent = 'No books found.';
+        return;
+      }
+
+      items.forEach((book) => {
+        const li = document.createElement('li');
+        li.textContent = `${book.title} - ${book.author}`;
+        booksList.appendChild(li);
+      });
+    }
+
+    async function loadBooks() {
+      try {
+        const res = await fetch('/api/books');
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+
+        const body = await res.json();
+        renderBooks(body.data);
+      } catch (err) {
+        message.textContent = 'Error fetching books.';
+        console.error(err);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadBooks);
+  </script>
+</body>
+</html>
