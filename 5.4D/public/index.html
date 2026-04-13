@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Books Catalogue</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    button {
+      padding: 8px 14px;
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+      width: 320px;
+      border: 1px solid #aaa;
+      background: #f2f2f2;
+      margin-bottom: 20px;
+    }
+    li {
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+    li:hover {
+      background: #ddd;
+    }
+    #detailsBox {
+      width: 320px;
+      min-height: 140px;
+      border: 1px solid #aaa;
+      background: #f7f7f7;
+      padding: 12px;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <h2>Books Catalogue developed by s1234567</h2>
+  <p>Click the button below to get all books items from the server:</p>
+  <button id="loadBooksBtn">Get all books</button>
+
+  <ul id="booksList"></ul>
+
+  <div id="detailsBox"></div>
+
+  <script>
+    const loadBooksBtn = document.getElementById('loadBooksBtn');
+    const booksList = document.getElementById('booksList');
+    const detailsBox = document.getElementById('detailsBox');
+
+    function renderBooks(items) {
+      booksList.innerHTML = '';
+      detailsBox.textContent = '';
+
+      items.forEach(book => {
+        const li = document.createElement('li');
+        const price = typeof book.price === 'string'
+          ? book.price
+          : (book.price && book.price.$numberDecimal) || book.price || '';
+
+        li.textContent = `${book.title} ${price} ${book.currency || 'AUD'}`;
+        li.addEventListener('click', () => loadBookDetails(book.id));
+        booksList.appendChild(li);
+      });
+    }
+
+    function renderBookDetails(book) {
+      const price = typeof book.price === 'string'
+        ? book.price
+        : (book.price && book.price.$numberDecimal) || book.price || '';
+
+      detailsBox.textContent =
+        `Title: ${book.title}\n` +
+        `Author: ${book.author}\n` +
+        `Year: ${book.year}\n` +
+        `Genre: ${book.genre}\n` +
+        `Summary: ${book.summary}\n` +
+        `Price (AUD): ${price}`;
+    }
+
+    async function loadBooks() {
+      try {
+        const res = await fetch('/api/books');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const body = await res.json();
+        renderBooks(body.data);
+      } catch (err) {
+        booksList.innerHTML = '';
+        detailsBox.textContent = 'Error fetching books.';
+        console.error(err);
+      }
+    }
+
+    async function loadBookDetails(id) {
+      try {
+        const res = await fetch(`/api/books/${id}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const body = await res.json();
+        renderBookDetails(body.data);
+      } catch (err) {
+        detailsBox.textContent = 'Error fetching book details.';
+        console.error(err);
+      }
+    }
+
+    loadBooksBtn.addEventListener('click', loadBooks);
+  </script>
+</body>
+</html>
