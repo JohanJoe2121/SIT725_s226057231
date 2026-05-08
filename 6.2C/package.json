@@ -1,0 +1,23 @@
+{
+  "name": "6.2c",
+  "version": "1.0.0",
+  "main": "calculate.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha --reporter spec"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "chai": "^6.2.2",
+    "mocha": "^11.7.5",
+    "request": "^2.88.2"
+  }
+}
